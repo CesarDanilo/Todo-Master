@@ -68,8 +68,7 @@
 
 - Geração e validação de tokens JWT  
 - Middleware para proteger rotas  
-- Identificação segura de usuário via token  
-- Armazenamento seguro no frontend  
+- Identificação segura de usuário via token 
 
 
 
