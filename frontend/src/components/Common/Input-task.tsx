@@ -1,9 +1,16 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
+import { useState } from "react"
 
-export function InputTask() {
-  return(
+interface InputTaskProps {
+  task: string
+  setTask: (value: string) => void
+  onAddTask: () => void
+}
+
+export function InputTask({ task, setTask, onAddTask }: InputTaskProps) {
+  return (
     <div className="flex-col flex gap-8 items-center w-full m-4">
 
       <div className="w-full flex-col justify-center items-center text-white pt-10">
@@ -12,11 +19,15 @@ export function InputTask() {
       </div>
 
       <div className="flex w-full gap-1 items-center justify-center">
-        <Input placeholder='Add a new task...' 
+        <Input
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          placeholder='Add a new task...'
           className="h-12 rounded-[12px] text-white bg-[#171723] border-[1px]
         border-[#9797a557] border-solid focus:border-purple-500"/>
-        
+
         <Button
+          onClick={onAddTask}
           className="w-12 h-12 flex justify-center items-center 
           bg-gradient-to-r from-[#8047e1] to-[#9e68fc] 
           shadow-2xl shadow-[#8047e1] rounded-[12px] 

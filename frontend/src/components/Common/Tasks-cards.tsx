@@ -3,7 +3,11 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Check } from "lucide-react"
 
-export function TasksCard() {
+interface TasksCardProps{
+  title: string
+}
+
+export function TasksCard({title}: TasksCardProps) {
   const [selected, setSelected] = useState(false)
 
   return (
@@ -38,7 +42,7 @@ export function TasksCard() {
             className={`text-sm leading-relaxed transition-all
             ${selected ? "text-white/60 line-through" : "text-white"}`}
           >
-            Finish Q3 design review for the dashboard
+            {title}
           </p>
 
           <Badge
