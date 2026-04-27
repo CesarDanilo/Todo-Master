@@ -1,14 +1,19 @@
-import { createFileRoute, Outlet, redirect, useNavigate } from '@tanstack/react-router'
-import { useEffect } from 'react'
-import { useAuth } from '@/hooks/useAuth'
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { isLoggedIn } from "@/hooks/useAuth" // Importe a função síncrona
 
 export const Route = createFileRoute('/_layout')({
+  beforeLoad: async () => {
+    // Se não estiver logado, redireciona para o login antes de carregar o componente
+    if (!isLoggedIn()) {
+      throw redirect({
+        to: "/login",
+      })
+    }
+  },
   component: LayoutComponent,
 })
 
 function LayoutComponent() {
-  const navigate = useNavigate()
-
   return (
     <div className="flex h-screen w-full">
       <main className="flex justify-center items-center overflow-y-auto w-full pt-8

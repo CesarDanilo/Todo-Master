@@ -29,9 +29,8 @@ export function InputTask({ task, setTask, onAddTask }: InputTaskProps) {
         <Button
           onClick={onAddTask}
           className="w-12 h-12 flex justify-center items-center 
-          bg-gradient-to-r from-[#8047e1] to-[#9e68fc] 
-          shadow-2xl shadow-[#8047e1] rounded-[12px] 
-          text-white cursor-pointer"
+          bg-purple-500/20 hover:bg-purple-500/40  text-purple-400 rounded-[12px] 
+          cursor-pointer"
         >
           <Plus size={20} strokeWidth={3} />
         </Button>
