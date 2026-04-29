@@ -1,6 +1,8 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useState } from 'react'
 import { Eye, EyeOff, User, Lock, SquareCheckBig } from 'lucide-react'
+import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
 
 export const Route = createFileRoute('/login')({
   component: LoginPage,
@@ -8,6 +10,38 @@ export const Route = createFileRoute('/login')({
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
+  const [email, setEmail] = useState('') 
+  const [password, setPassword] = useState('')
+
+  const navigate = useNavigate()
+
+  const loginMutation = useMutation({
+    mutationFn: async () => {
+      const res = await axios.post(
+        'http://127.0.0.1:8000/api/v1/auth/login',
+        {
+          email: email, 
+          password: password,
+        }
+      )
+
+      return res.data
+    },
+    onSuccess: (data) => {
+      localStorage.setItem('access_token', data.access_token)
+      navigate({ to: '/' })
+    },
+    onError: (err: any) => {
+      console.error(err.response?.data || err.message)
+      alert(JSON.stringify(err.response?.data))
+    },
+  })
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    loginMutation.mutate()
+    console.log(email, password)
+  }
 
   return (
     <div className="flex h-screen w-full">
@@ -15,16 +49,15 @@ function LoginPage() {
         className="relative flex w-full items-center justify-center overflow-y-auto px-4
         bg-[radial-gradient(ellipse_at_top,_#3b2d63_0%,_#1a1633_45%,_#0c0c16_85%)]"
       >
-        {/* overlay lateral escuro */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/60" />
 
-        {/* card */}
         <div className="relative z-10 w-full max-w-md rounded-2xl bg-white/5 p-8 backdrop-blur-md border border-white/10 shadow-xl">
 
-          {/* topo */}
           <div className="flex items-center gap-3 mb-6">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/20">
-              <span className="text-purple-400 font-bold"><SquareCheckBig /></span>
+              <span className="text-purple-400 font-bold">
+                <SquareCheckBig />
+              </span>
             </div>
             <span className="text-white font-medium text-lg">Tasker</span>
           </div>
@@ -34,16 +67,18 @@ function LoginPage() {
             Sign in to pick up where you left off.
           </p>
 
-          {/* form */}
-          <form className="mt-8 space-y-5">
-            {/* username */}
+          <form onSubmit={handleSubmit} className="mt-8 space-y-5">
+
+            {/* email */}
             <div>
-              <label className="text-xs text-zinc-400">USERNAME</label>
+              <label className="text-xs text-zinc-400">EMAIL</label>
               <div className="mt-1 flex items-center rounded-xl bg-white/5 border border-white/10 px-3 py-2 focus-within:border-purple-400">
                 <User className="w-4 h-4 text-zinc-400 mr-2" />
                 <input
-                  type="text"
-                  placeholder="Username"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Email"
                   className="w-full bg-transparent text-white outline-none placeholder:text-zinc-500"
                 />
               </div>
@@ -56,6 +91,8 @@ function LoginPage() {
                 <Lock className="w-4 h-4 text-zinc-400 mr-2" />
                 <input
                   type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                   className="w-full bg-transparent text-white outline-none placeholder:text-zinc-500"
                 />
@@ -69,7 +106,6 @@ function LoginPage() {
               </div>
             </div>
 
-            {/* options */}
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center gap-2 text-zinc-400">
                 <input type="checkbox" className="accent-purple-500" />
@@ -83,16 +119,17 @@ function LoginPage() {
               </button>
             </div>
 
-            {/* botão */}
             <button
               type="submit"
-              className="w-full rounded-xl bg-gradient-to-r from-[#8047e1] to-[#9e68fc] shadow-2xl shadow-[#8047e1] py-3 font-semibold text-white hover:opacity-90 transition"
+              disabled={loginMutation.isPending}
+              className="w-full rounded-xl bg-gradient-to-r from-[#8047e1] to-[#9e68fc]
+              shadow-2xl shadow-[#8047e1] py-3 font-semibold text-white
+              hover:opacity-90 transition disabled:opacity-50"
             >
-              Login
+              {loginMutation.isPending ? 'Logging in...' : 'Login'}
             </button>
           </form>
 
-          {/* footer */}
           <p className="mt-6 text-center text-sm text-zinc-400">
             New here?{' '}
             <span className="text-[#8047e1] hover:underline cursor-pointer">

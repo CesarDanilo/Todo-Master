@@ -1,26 +1,35 @@
 import { useNavigate } from '@tanstack/react-router'
+import { useState, useEffect } from 'react'
 
-// Função exportada para uso fora de componentes (como no beforeLoad do Router)
+const TOKEN_KEY = 'access_token'
+
+// função pura (pode usar fora de componente)
 export const isLoggedIn = () => {
-  const token = localStorage.getItem('access_token') // Ou o nome que você definiu no seu backend
-  return !!token // Retorna true se o token existir
+  return !!localStorage.getItem(TOKEN_KEY)
 }
 
 export function useAuth() {
   const navigate = useNavigate()
+  const [authenticated, setAuthenticated] = useState<boolean>(isLoggedIn())
+
+  useEffect(() => {
+    setAuthenticated(isLoggedIn())
+  }, [])
 
   const login = (token: string) => {
-    localStorage.setItem('access_token', token)
+    localStorage.setItem(TOKEN_KEY, token)
+    setAuthenticated(true)
     navigate({ to: '/' })
   }
 
   const logout = () => {
-    localStorage.removeItem('access_token')
+    localStorage.removeItem(TOKEN_KEY)
+    setAuthenticated(false)
     navigate({ to: '/login' })
   }
 
   return {
-    isLoggedIn: isLoggedIn(),
+    isLoggedIn: authenticated,
     login,
     logout,
   }
