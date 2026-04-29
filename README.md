@@ -1,74 +1,67 @@
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/f88bbf98-0508-40ae-91c6-533e4ccc314a" alt="Todo List Logo" width="150" />
-</p>
-
-<h2 align="center">Lista de Tarefas</h2> 
+<h1 align="center">Tasker - Lista de Tarefas</h1>
 
 <p align="center">
-  Aplicação fullstack com autenticação JWT, histórico de exclusão e interface responsiva.<br />
-  Desenvolvida com <strong>Node.js</strong>, <strong>React.js</strong> e <strong>Tailwind CSS</strong>.
+  Aplicação fullstack moderna de gerenciamento de tarefas com autenticação JWT, controle de usuários e interface responsiva.<br />
+  Desenvolvida com <strong>React + TypeScript</strong> no frontend e <strong>FastAPI (Python)</strong> no backend.
 </p>
 
 ---
 
-### ⚠ Banco de dados offline
+## 🖥️ Preview da Interface (V.01)
 
-## 🖥️ Interface
-<table align="center">
-  <tr>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/d533976a-3356-4dfe-8d2a-ad4f7557e64d" alt="Preview 1" width="600"/>
-    </td>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/19df8fc6-9fa7-4bd7-93b0-6e7fb13a8222" alt="Preview 2" width="600"/>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/91e7665f-5475-441e-b8ec-c9481b2ca113" alt="Preview 3" width="600"/>
-    </td>
-    <td align="center">
-      <img src="https://github.com/user-attachments/assets/8519c5eb-71a2-4e07-993f-e171c0a81b78" alt="Preview 4" width="600"/>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/37e6567c-1fda-4f17-8fd4-98d5209855a9" width="82%" />
+</p>
 
-## ⚙️ Tecnologias
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/9c550fff-0d5c-4438-a65a-1f38eac476e6" width="82%" />
+</p>
 
-### Backend
-- Node.js + Express
-- Sequelize + PostgreSQL
-- JWT
-- Docker
-- Padrão MVC + API REST
+---
+
+## ⚙️ Tecnologias Utilizadas
 
 ### Frontend
 - React.js
+- TypeScript
+- Shadcn
 - Tailwind CSS
-- React Router DOM
+- React Router (TanStack Router)
+- React Query (TanStack Query)
+- Axios
 
-### Utilitários
-- bcrypt
-- dotenv
-- cors
+### Backend
+- FastAPI (Python)
+- SQLModel / SQLAlchemy
+- JWT Authentication
+- Pydantic
+- Uvicorn
+
+### Banco de Dados
+- PostgreSQL
 
 ---
-  
-## ✅ Funcionalidades
 
-- Autenticação com JWT  
-- CRUD completo de tarefas  
-- Histórico de exclusões  
-- Contador por status (pendentes, concluídas, lixeira)  
-- Interface moderna, minimalista e responsiva  
+## 🚀 Funcionalidades
+
+- 🔐 Autenticação com JWT (Login e Registro)
+- 👤 Sistema de usuários
+- 📝 Criação, listagem e gerenciamento de tarefas
+- ✅ Marcar tarefas como concluídas
+- 🗑️ Exclusão de tarefas
+- 📊 Controle de prioridade (low, medium, high)
+- 🔒 Rotas protegidas por token
+- ⚡ Interface moderna, responsiva e intuitiva
 
 ---
 
 ## 🔐 Autenticação
 
-- Geração e validação de tokens JWT  
-- Middleware para proteger rotas  
-- Identificação segura de usuário via token 
+O sistema utiliza **JWT (JSON Web Token)**:
 
+- Login retorna um token de acesso
+- Token é armazenado no `localStorage`
+- Requests autenticadas via header:
 
-
+```http
+Authorization: Bearer <token>
